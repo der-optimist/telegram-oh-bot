@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<House>
+	<ThreeSteps>
+		<Licht q1="OK. Welcher Raum?" q2="OK. Welches Licht genau?" q3="Gut. Und wie hell?">
+			<Wohnzimmer>
+				<Deckenleuchte name="item_licht_wz_decke">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</Deckenleuchte>
+				<LED-Streifen name="item_licht_wz_led">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</LED-Streifen>
+				<Wandleuchte name="item_licht_wz_wand">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</Wandleuchte>
+			</Wohnzimmer>
+			<Esszimmer>
+				<Deckenleuchte name="item_licht_ez_decke">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</Deckenleuchte>
+				<LED-Streifen name="item_licht_ez_led">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</LED-Streifen>
+				<Hängelampe name="item_licht_ez_haenge">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</Hängelampe>
+			</Esszimmer>
+			<Kueche>
+				<Deckenleuchte name="item_licht_kueche_decke">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</Deckenleuchte>
+				<Spüle name="item_licht_kueche_spuele">
+					<Wert>An</Wert>
+					<Wert>50%</Wert>
+					<Wert>Aus</Wert>
+				</Spüle>
+				<Abzug name="item_licht_kueche_abzug">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</Abzug>
+			</Kueche>
+			<Bad_EG>
+				<Deckenleuchte name="item_licht_badeg_decke">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</Deckenleuchte>
+				<LED-Streifen name="item_licht_badeg_led">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</LED-Streifen>
+				<Spiegelschrank name="item_licht_badeg_spiegelschrank">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</Spiegelschrank>
+			</Bad_EG>
+			<Kind>
+				<Deckenleuchte name="item_licht_kind_decke">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</Deckenleuchte>
+				<LED-Streifen name="item_licht_kind_led">
+					<Wert>An</Wert>
+					<Wert>1%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>Aus</Wert>
+				</LED-Streifen>
+				<Schrank name="item_licht_kind_schrank">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</Schrank>
+				<Schreibtisch name="item_licht_kind_schreibtisch">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</Schreibtisch>
+			</Kind>
+		</Licht>
+		<Rollo q1="OK. Welcher Raum?" q2="Ok. Welchen Rollo dort?" q3="Gut. Und wie hoch?">
+			<Wohnzimmer>
+				<Fenster_groß name="item_rollo_wz_gross">
+					<Wert>0%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>100%</Wert>
+				</Fenster_groß>
+				<Fenster_klein name="item_rollo_wz_klein">
+					<Wert>0%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>100%</Wert>
+				</Fenster_klein>
+			</Wohnzimmer>
+			<Esszimmer>
+				<HebeSchiebeDing name="item_rollo_ez_hebeschiebe">
+					<Wert>0%</Wert>
+					<Wert>10%</Wert>
+					<Wert>25%</Wert>
+					<Wert>60%</Wert>
+					<Wert>100%</Wert>
+				</HebeSchiebeDing>
+			</Esszimmer>
+		</Rollo>
+		<Strom q1="OK. Welcher Raum?" q2="OK. Welche Steckdose genau?" q3="Gut. An oder aus?">
+			<Wohnzimmer>
+				<TV name="item_strom_wz_tv">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</TV>
+				<Anlage name="item_strom_wz_anlage">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</Anlage>
+			</Wohnzimmer>
+			<Küche>
+				<Herd name="item_strom_kueche_herd">
+					<Wert>An</Wert>
+					<Wert>Aus</Wert>
+				</Herd>
+			</Küche>
+		</Strom>
+	</ThreeSteps>
+	<TwoSteps>
+		<Heizung q1="Ok. Welcher Raum?" q2="Gut. Welche Temperatur?">
+			<Abstellraum name="T_Abstellraum_ist">
+				<Wert>4</Wert>
+				<Wert>5</Wert>
+				<Wert>6</Wert>
+				<Wert>7</Wert>
+				<Wert>8</Wert>
+                <Wert>9</Wert>
+				<Wert>10</Wert>
+				<Wert>11</Wert>
+				<Wert>12</Wert>
+				<Wert>13</Wert>
+                <Wert>14</Wert>
+				<Wert>15</Wert>
+				<Wert>16</Wert>
+				<Wert>17</Wert>
+				<Wert>18</Wert>
+                <Wert>19</Wert>
+				<Wert>20</Wert>
+				<Wert>21</Wert>
+				<Wert>22</Wert>
+				<Wert>23</Wert>
+			</Abstellraum>
+			<Esszimmer name="item_T_soll_EZ">
+				<Wert>20</Wert>
+				<Wert>21</Wert>
+				<Wert>22</Wert>
+				<Wert>23</Wert>
+				<Wert>24</Wert>
+			</Esszimmer>
+			<Bad_EG name="item_T_soll_BadEG">
+				<Wert>20</Wert>
+				<Wert>21</Wert>
+				<Wert>22</Wert>
+				<Wert>23</Wert>
+				<Wert>24</Wert>
+			</Bad_EG>
+			<Bad_OG name="item_T_soll_BadOG">
+				<Wert>20</Wert>
+				<Wert>21</Wert>
+				<Wert>22</Wert>
+				<Wert>23</Wert>
+				<Wert>24</Wert>
+			</Bad_OG>
+			<Schlafzimmer name="item_T_soll_SZ">
+				<Wert>17</Wert>
+				<Wert>18</Wert>
+				<Wert>19</Wert>
+				<Wert>20</Wert>
+				<Wert>21</Wert>
+				<Wert>22</Wert>
+				<Wert>23</Wert>
+				<Wert>24</Wert>
+			</Schlafzimmer>
+		</Heizung>
+	</TwoSteps>
+</House>

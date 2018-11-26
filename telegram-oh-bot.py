@@ -18,19 +18,16 @@ from openhab import openHAB
 import requests
 
 # Enable logging
-class MyLogFilter(object):
-    def __init__(self, level):
-        self.__level = level
-
-    def filter(self, logRecord):
-        return logRecord.levelno == self.__level
+class MyLogFilter(logging.Filter):
+    def filter(self, record):
+        return record.levelno == logging.INFO | record.levelno == logging.DEBUG
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 # Filter: Only INFO shall be logged (Warnings and Errors occur mainly when there is a connection interrupt)
 # Please comment this line in case of a misfunction
-logger.addFilter(MyLogFilter(logging.INFO))
+logger.addFilter(MyLogFilter())
 
 # Config
 config = configparser.ConfigParser()

@@ -330,6 +330,12 @@ def chat_id(bot, update):
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     logger.info("User %s, ID %s: Chat-id angefragt. Sie ist: %s", update.effective_user.full_name, update.effective_user.id, update.message.chat_id)
 
+@restricted
+def thanks(bot, update):
+    reply = "Gerne 😘"
+    update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
+    logger.info("User %s, ID %s: Danke gesagt - sehr freundlich", update.effective_user.full_name, update.effective_user.id)
+
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     try:
@@ -402,6 +408,7 @@ def main():
     time_to_work_handler = RegexHandler('^(Arbeit|arbeit)',time_to_work)
     time_home_handler = RegexHandler('^(Feierabend|feierabend|nach Hause|Nach Hause|heim|Heim)',time_home)
     chat_id_handler = RegexHandler('^(Chat|chat)',chat_id)
+    thanks_handler = RegexHandler('^(Danke|danke)',thanks)
 
     dp.add_handler(conv_handler_3)
     dp.add_handler(conv_handler_2)
@@ -413,6 +420,7 @@ def main():
     dp.add_handler(time_to_work_handler)
     dp.add_handler(time_home_handler)
     dp.add_handler(chat_id_handler)
+    dp.add_handler(thanks_handler)
 
     # log all errors
     dp.add_error_handler(error)

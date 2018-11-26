@@ -3,17 +3,6 @@
 #
 """
 Jochens Telegram-OH-Bot
-v01: Basis
-v02: Bug fixes
-v03: Bug fixes
-v04: added try statement for openhab connection
-v05: changed emojis (very important...)
-v06: added google maps drive time and good morning
-v07: Bug fixes
-v08: Clean Strings from xml file (remove '%' and translate to ON/OFF...)
-v09: extended bot answers. filter for logging only INFO events - not working yet
-v10: handler for showing chat-id in the log. used for OH-config
-v11: Moved all personal info to ini file. Next try on error handling
 """
 
 from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton)

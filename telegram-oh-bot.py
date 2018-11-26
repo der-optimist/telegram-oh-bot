@@ -338,17 +338,17 @@ def error(bot, update, error):
     try:
         raise error
     except Unauthorized:
-        logger.warning('Update "%s" caused the error: "%s"', update, error)
+        logger.info('Update "%s" caused the error: "%s"', update, error)
     except BadRequest:
-        logger.warning('Update "%s" caused the error: "%s"', update, error)
+        logger.info('Update "%s" caused the error: "%s"', update, error)
     except TimedOut:
         pass
     except NetworkError:
         pass
     except ChatMigrated as e:
-        logger.warning('Update "%s" caused the error: "%s"', update, error)
+        logger.info('Update "%s" caused the error: "%s"', update, error)
     except TelegramError:
-        logger.warning('Update "%s" caused the error: "%s"', update, error)
+        logger.info('Update "%s" caused the error: "%s"', update, error)
 
 def main():
     initialize_vars()

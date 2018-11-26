@@ -20,7 +20,7 @@ import requests
 # Enable logging
 class MyLogFilter(logging.Filter):
     def filter(self, record):
-        return record.levelno == logging.info | record.levelno == logging.DEBUG
+        return record.levelno != logging.info
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.INFO)

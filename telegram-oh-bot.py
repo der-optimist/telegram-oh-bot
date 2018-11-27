@@ -77,7 +77,7 @@ def restricted(func):
         user_id = update.effective_user.id
         user_name = update.effective_user.full_name
         if user_id not in allowed_users:
-            my_log("access denied to user id %d, %s", user_id, user_name)
+            my_log("access denied to user id " + str(user_id) + ", " + user_name)
             return
         return func(bot, update, *args, **kwargs)
     return wrapped
@@ -117,7 +117,7 @@ def send_oh(item, value):
             Items.get(item).command(value)
         return True
     except Exception as e:
-        my_log("Error sending to openHAB: %s", e)
+        my_log("Error sending to openHAB: " + str(e))
         return False
 
 def get_oh(item):

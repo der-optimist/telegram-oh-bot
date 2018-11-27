@@ -124,7 +124,7 @@ def get_oh(item):
     try:
         return Items.get(item).state
     except Exception as e:
-        my_log("Error loading from openHAB: %s", e)
+        my_log("Error loading from openHAB: " + str(e))
         return "Fehler, sorry..."
 
 def maps_driving_time(orig,dest):
@@ -135,7 +135,7 @@ def maps_driving_time(orig,dest):
         driving_time = result['rows'][0]['elements'][0]['duration_in_traffic']['value']
         return (driving_time // 60)
     except Exception as e:
-        my_log("Error loading Maps Driving Time: %s", e)
+        my_log("Error loading Maps Driving Time: " + str(e))
         return "(?)"
 
 class Filter3Keywords(BaseFilter):
@@ -177,7 +177,7 @@ filter_2_2 = Filter22()
 def step_one_of_three(bot, update):
     global Keyword
     Keyword = update.message.text
-    my_log("User %s, ID %s: Keyword gesendet: %s", update.effective_user.full_name, update.effective_user.id, Keyword)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Keyword gesendet: " + Keyword)
     global Values_1
     for elem in xml_root.find('ThreeSteps').find(Keyword):
         Values_1.append(elem.tag)

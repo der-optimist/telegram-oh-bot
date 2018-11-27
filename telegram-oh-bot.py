@@ -16,22 +16,22 @@ from functools import wraps
 import logging
 from openhab import openHAB
 import requests
+from datetime import datetime
 
 # Enable logging
-class MyLogFilter(object):
-    def __init__(self, level):
-        self.__level = level
+log_output = 2 # 1: use logging module | 2: only print defined output to stdout | 3: no logging or printing
+if log_output == 1:
+    logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
+                        level=logging.INFO)
+    logger = logging.getLogger(__name__)
 
-    def filter(self, logRecord):
-        return logRecord.levelno == self.__level
-
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
-logger = logging.getLogger(__name__)
-# Filter: Only INFO shall be logged (Warnings and Errors occur mainly when there is a connection interrupt)
-# Please comment this line in case of a misfunction
-logger.addFilter(MyLogFilter(logging.INFO))
-
+def my_log(logtext):
+    global log_output
+    if log_output == 1:
+        logger.info(logtext)
+    if log_output == 2:
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " - " + logtext)
+        
 # Config
 config = configparser.ConfigParser()
 config.read('bot.ini')
@@ -77,7 +77,7 @@ def restricted(func):
         user_id = update.effective_user.id
         user_name = update.effective_user.full_name
         if user_id not in allowed_users:
-            logger.info("access denied to user id %d, %s", user_id, user_name)
+            my_log("access denied to user id " + str(user_id) + ", " + user_name)
             return
         return func(bot, update, *args, **kwargs)
     return wrapped
@@ -117,14 +117,14 @@ def send_oh(item, value):
             Items.get(item).command(value)
         return True
     except Exception as e:
-        logger.info("Error sending to openHAB: %s", e)
+        my_log("Error sending to openHAB: " + str(e))
         return False
 
 def get_oh(item):
     try:
         return Items.get(item).state
     except Exception as e:
-        logger.info("Error loading from openHAB: %s", e)
+        my_log("Error loading from openHAB: " + str(e))
         return "Fehler, sorry..."
 
 def maps_driving_time(orig,dest):
@@ -135,7 +135,7 @@ def maps_driving_time(orig,dest):
         driving_time = result['rows'][0]['elements'][0]['duration_in_traffic']['value']
         return (driving_time // 60)
     except Exception as e:
-        logger.info("Error loading Maps Driving Time: %s", e)
+        my_log("Error loading Maps Driving Time: " + str(e))
         return "(?)"
 
 class Filter3Keywords(BaseFilter):
@@ -177,7 +177,7 @@ filter_2_2 = Filter22()
 def step_one_of_three(bot, update):
     global Keyword
     Keyword = update.message.text
-    logger.info("User %s, ID %s: Keyword gesendet: %s", update.effective_user.full_name, update.effective_user.id, Keyword)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Keyword gesendet: " + Keyword)
     global Values_1
     for elem in xml_root.find('ThreeSteps').find(Keyword):
         Values_1.append(elem.tag)
@@ -189,7 +189,7 @@ def step_one_of_three(bot, update):
 def step_two_of_three(bot, update):
     global StepOne
     StepOne = update.message.text
-    logger.info("User %s, ID %s: StepOne gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepOne)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": StepOne gewählt: " + StepOne)
     global Values_2
     for elem in xml_root.find('ThreeSteps').find(Keyword).find(StepOne):
         Values_2.append(elem.tag)
@@ -202,7 +202,7 @@ def step_two_of_three(bot, update):
 def step_three_of_three(bot, update):
     global StepTwo
     StepTwo = update.message.text
-    logger.info("User %s, ID %s: StepTwo gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepTwo)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": StepTwo gewählt: " + StepTwo)
     global Values_3
     for elem in xml_root.find('ThreeSteps').find(Keyword).find(StepOne).find(StepTwo):
         Values_3.append(elem.text)
@@ -214,14 +214,14 @@ def step_three_of_three(bot, update):
 def action_of_three_steps(bot, update):
     global StepThree
     StepThree = update.message.text
-    logger.info("User %s, ID %s: StepThree gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepThree)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": " + StepThree)
     item_name = xml_root.find('ThreeSteps').find(Keyword).find(StepOne).find(StepTwo).attrib['name']
     if send_oh(item_name,StepThree):
         reply = 'OK 👍🏻 sollte erledigt sein.'
-        logger.info("User %s, ID %s: Aktion: Setze Item %s auf %s", update.effective_user.full_name, update.effective_user.id, item_name, StepThree) 
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item " + item_name + " auf " + StepThree) 
     else:
         reply = 'Oh 😳 da ist leider was schief gegangen, sorry!'
-        logger.info("User %s, ID %s: Aktion: Setze Item %s auf %s - FEHLER!", update.effective_user.full_name, update.effective_user.id, item_name, StepThree) 
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item " + item_name + " auf " + StepThree + " - FEHLER!") 
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     initialize_vars()
     return ConversationHandler.END
@@ -230,7 +230,7 @@ def action_of_three_steps(bot, update):
 def step_one_of_two(bot, update):
     global Keyword
     Keyword = update.message.text
-    logger.info("User %s, ID %s: Keyword gesendet: %s", update.effective_user.full_name, update.effective_user.id, Keyword)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": " + Keyword)
     global Values_1
     for elem in xml_root.find('TwoSteps').find(Keyword):
         Values_1.append(elem.tag)
@@ -242,7 +242,7 @@ def step_one_of_two(bot, update):
 def step_two_of_two(bot, update):
     global StepOne
     StepOne = update.message.text
-    logger.info("User %s, ID %s: StepOne gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepOne)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": StepOne gewählt: " + StepOne)
     global Values_2
     for elem in xml_root.find('TwoSteps').find(Keyword).find(StepOne):
         Values_2.append(elem.text)
@@ -254,21 +254,21 @@ def step_two_of_two(bot, update):
 def action_of_two_steps(bot, update):
     global StepTwo
     StepTwo = update.message.text
-    logger.info("User %s, ID %s: StepTwo gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepTwo)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": StepTwo gewählt: " + StepTwo)
     item_name = xml_root.find('TwoSteps').find(Keyword).find(StepOne).attrib['name']
     if send_oh(item_name,StepTwo):
         reply = 'OK 👍🏻 sollte erledigt sein.'
-        logger.info("User %s, ID %s: Aktion: Setze Item %s auf %s", update.effective_user.full_name, update.effective_user.id, item_name, StepTwo)
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item " + item_name + " auf " + StepTwo)
     else:
         reply = 'Oh 😳 da ist leider was schief gegangen, sorry!'
-        logger.info("User %s, ID %s: Aktion: Setze Item %s auf %s - FEHLER!", update.effective_user.full_name, update.effective_user.id, item_name, StepTwo)
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item " + item_name + " auf " + StepTwo + " - FEHLER!")
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     initialize_vars()
     return ConversationHandler.END
 
 @restricted
 def cancel(bot, update):
-    logger.info("User %s, ID %s: Abbruch", update.effective_user.full_name, update.effective_user.id) 
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Abbruch") 
     update.message.reply_text('abgebrochen',reply_markup=ReplyKeyboardRemove())
     initialize_vars()
     return ConversationHandler.END
@@ -287,16 +287,16 @@ def show_temps(bot, update):
     reply += "\n" + "Draußen: " + "{:.1f}".format(get_oh('TempAktuellFIO'))
     reply += "\n" + "Wohnzimmer: " "{:.1f}".format(+ get_oh('T_WZ_ist'))
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    logger.info("User %s, ID %s: Temperaturen angefragt", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Temperaturen angefragt")
 
 @restricted
 def set_garbage(bot, update):
     if send_oh('Abfall_Steht_An','OFF'):
         reply = "OK, Müll ist also erledigt 🚚 <= 🗑️\nDanke ❤️"
-        logger.info("User %s, ID %s: Aktion: Setze Item Abfall_Steht_An auf OFF", update.effective_user.full_name, update.effective_user.id)
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item Abfall_Steht_An auf OFF")
     else:
         reply = "OK, Müll ist also erledigt 🚚 <= 🗑️\nDanke ❤️\nLeider konnte ich es aber dem System nicht sagen, da ein Fehler aufgetreten ist. Tut mir leid!"
-        logger.info("User %s, ID %s: Aktion: Setze Item Abfall_Steht_An auf OFF - FEHLER", update.effective_user.full_name, update.effective_user.id) 
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item Abfall_Steht_An auf OFF - FEHLER") 
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
 
 @restricted
@@ -309,49 +309,49 @@ def good_morning(bot, update):
     reply += "\n" + "im Wohnzimmer " + "{:.1f}".format(get_oh('T_WZ_ist')) + " °C"
     reply += "\nZur Arbeit brauchst du aktuell " + str(maps_driving_time(coord_home,coord_work1)) + " Minuten"
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    logger.info("User %s, ID %s: Guten Morgen gesagt", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Guten Morgen gesagt")
 
 @restricted
 def time_to_work(bot, update):
     reply = "\nZur Arbeit brauchst du aktuell " + str(maps_driving_time(coord_home,coord_work1)) + " Minuten."
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    logger.info("User %s, ID %s: Zeit zur Arbeit angefragt", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Zeit zur Arbeit angefragt")
 
 @restricted
 def time_home(bot, update):
     reply = "\nVon der Arbeit nach Hause brauchst du aktuell " + str(maps_driving_time(coord_work1,coord_home)) + " Minuten."
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    logger.info("User %s, ID %s: Zeit Arbeit nach Hause angefragt", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Zeit Arbeit nach Hause angefragt")
 
 @restricted
 def chat_id(bot, update):
     reply = "Unsere Chat-ID ist:\n"
     reply += update.message.chat_id
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    logger.info("User %s, ID %s: Chat-id angefragt. Sie ist: %s", update.effective_user.full_name, update.effective_user.id, update.message.chat_id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Chat-id angefragt. Sie ist: " + str(update.message.chat_id))
 
 @restricted
 def thanks(bot, update):
     reply = "Gerne 😘"
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    logger.info("User %s, ID %s: Danke gesagt - sehr freundlich", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + " ID " + str(update.effective_user.id) + ": Danke gesagt - sehr freundlich")
 
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     try:
         raise error
     except Unauthorized:
-        logger.warning('Update "%s" caused the error: "%s"', update, error)
+        my_log("Update " + str(update) + " caused the error: " + str(error))
     except BadRequest:
-        logger.warning('Update "%s" caused the error: "%s"', update, error)
+        my_log("Update " + str(update) + " caused the error: " + str(error))
     except TimedOut:
         pass
     except NetworkError:
         pass
     except ChatMigrated as e:
-        logger.warning('Update "%s" caused the error: "%s"', update, error)
+        my_log("Update " + str(update) + " caused the error: " + str(error))
     except TelegramError:
-        logger.warning('Update "%s" caused the error: "%s"', update, error)
+        my_log("Update " + str(update) + " caused the error: " + str(error))
 
 def main():
     initialize_vars()
@@ -360,7 +360,7 @@ def main():
         openhab = openHAB(url_oh)
         Items = openhab.fetch_all_items()
     except Exception as e:
-        logger.info("Error connecting to openHAB: %s", e)
+        my_log("Error connecting to openHAB: " + str(e))
         pass
 
     # Create the EventHandler and pass it your bot's token.

@@ -30,7 +30,7 @@ def my_log(logtext):
     if log_output == 1:
         logger.info(logtext)
     if log_output == 2:
-        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + logtext)
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + " - " + logtext)
         
 # Config
 config = configparser.ConfigParser()

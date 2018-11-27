@@ -18,17 +18,17 @@ from openhab import openHAB
 import requests
 
 # Enable logging
-loglevel = 1 # 1: use logging module | 2: only print defined output to stdout | 3: no logging or printing
-if set_log == 1:
+log_output = 1 # 1: use logging module | 2: only print defined output to stdout | 3: no logging or printing
+if log_output == 1:
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
     logger = logging.getLogger(__name__)
 
 def my_log(logtext):
-    global set_log
-    if set_log == 1:
+    global log_output
+    if log_output == 1:
         logger.info(logtext)
-    if set_log == 2:
+    if log_output == 2:
         print(logtext)
         
 # Config

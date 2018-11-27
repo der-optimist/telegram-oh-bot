@@ -333,7 +333,7 @@ def chat_id(bot, update):
 def thanks(bot, update):
     reply = "Gerne 😘"
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    my_log("User %s, ID %s: Danke gesagt - sehr freundlich", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + " ID " + str(update.effective_user.id) + ": Danke gesagt - sehr freundlich")
 
 def error(bot, update, error):
     """Log Errors caused by Updates."""

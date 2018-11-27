@@ -189,7 +189,7 @@ def step_one_of_three(bot, update):
 def step_two_of_three(bot, update):
     global StepOne
     StepOne = update.message.text
-    my_log("User %s, ID %s: StepOne gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepOne)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": StepOne gewählt: " + StepOne)
     global Values_2
     for elem in xml_root.find('ThreeSteps').find(Keyword).find(StepOne):
         Values_2.append(elem.tag)
@@ -202,7 +202,7 @@ def step_two_of_three(bot, update):
 def step_three_of_three(bot, update):
     global StepTwo
     StepTwo = update.message.text
-    my_log("User %s, ID %s: StepTwo gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepTwo)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": StepTwo gewählt: " + StepTwo)
     global Values_3
     for elem in xml_root.find('ThreeSteps').find(Keyword).find(StepOne).find(StepTwo):
         Values_3.append(elem.text)
@@ -214,14 +214,14 @@ def step_three_of_three(bot, update):
 def action_of_three_steps(bot, update):
     global StepThree
     StepThree = update.message.text
-    my_log("User %s, ID %s: StepThree gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepThree)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": " + StepThree)
     item_name = xml_root.find('ThreeSteps').find(Keyword).find(StepOne).find(StepTwo).attrib['name']
     if send_oh(item_name,StepThree):
         reply = 'OK 👍🏻 sollte erledigt sein.'
-        my_log("User %s, ID %s: Aktion: Setze Item %s auf %s", update.effective_user.full_name, update.effective_user.id, item_name, StepThree) 
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item " + item_name + " auf " + StepThree) 
     else:
         reply = 'Oh 😳 da ist leider was schief gegangen, sorry!'
-        my_log("User %s, ID %s: Aktion: Setze Item %s auf %s - FEHLER!", update.effective_user.full_name, update.effective_user.id, item_name, StepThree) 
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item " + item_name + " auf " + StepThree + " - FEHLER!") 
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     initialize_vars()
     return ConversationHandler.END
@@ -230,7 +230,7 @@ def action_of_three_steps(bot, update):
 def step_one_of_two(bot, update):
     global Keyword
     Keyword = update.message.text
-    my_log("User %s, ID %s: Keyword gesendet: %s", update.effective_user.full_name, update.effective_user.id, Keyword)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": " + Keyword)
     global Values_1
     for elem in xml_root.find('TwoSteps').find(Keyword):
         Values_1.append(elem.tag)
@@ -242,7 +242,7 @@ def step_one_of_two(bot, update):
 def step_two_of_two(bot, update):
     global StepOne
     StepOne = update.message.text
-    my_log("User %s, ID %s: StepOne gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepOne)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": StepOne gewählt: " + StepOne)
     global Values_2
     for elem in xml_root.find('TwoSteps').find(Keyword).find(StepOne):
         Values_2.append(elem.text)
@@ -254,21 +254,21 @@ def step_two_of_two(bot, update):
 def action_of_two_steps(bot, update):
     global StepTwo
     StepTwo = update.message.text
-    my_log("User %s, ID %s: StepTwo gewählt: %s", update.effective_user.full_name, update.effective_user.id, StepTwo)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": StepTwo gewählt: " + StepTwo)
     item_name = xml_root.find('TwoSteps').find(Keyword).find(StepOne).attrib['name']
     if send_oh(item_name,StepTwo):
         reply = 'OK 👍🏻 sollte erledigt sein.'
-        my_log("User %s, ID %s: Aktion: Setze Item %s auf %s", update.effective_user.full_name, update.effective_user.id, item_name, StepTwo)
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item " + item_name + " auf " + StepTwo)
     else:
         reply = 'Oh 😳 da ist leider was schief gegangen, sorry!'
-        my_log("User %s, ID %s: Aktion: Setze Item %s auf %s - FEHLER!", update.effective_user.full_name, update.effective_user.id, item_name, StepTwo)
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item " + item_name + " auf " + StepTwo + " - FEHLER!")
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     initialize_vars()
     return ConversationHandler.END
 
 @restricted
 def cancel(bot, update):
-    my_log("User %s, ID %s: Abbruch", update.effective_user.full_name, update.effective_user.id) 
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Abbruch") 
     update.message.reply_text('abgebrochen',reply_markup=ReplyKeyboardRemove())
     initialize_vars()
     return ConversationHandler.END
@@ -287,16 +287,16 @@ def show_temps(bot, update):
     reply += "\n" + "Draußen: " + "{:.1f}".format(get_oh('TempAktuellFIO'))
     reply += "\n" + "Wohnzimmer: " "{:.1f}".format(+ get_oh('T_WZ_ist'))
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    my_log("User %s, ID %s: Temperaturen angefragt", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Temperaturen angefragt")
 
 @restricted
 def set_garbage(bot, update):
     if send_oh('Abfall_Steht_An','OFF'):
         reply = "OK, Müll ist also erledigt 🚚 <= 🗑️\nDanke ❤️"
-        my_log("User %s, ID %s: Aktion: Setze Item Abfall_Steht_An auf OFF", update.effective_user.full_name, update.effective_user.id)
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item Abfall_Steht_An auf OFF")
     else:
         reply = "OK, Müll ist also erledigt 🚚 <= 🗑️\nDanke ❤️\nLeider konnte ich es aber dem System nicht sagen, da ein Fehler aufgetreten ist. Tut mir leid!"
-        my_log("User %s, ID %s: Aktion: Setze Item Abfall_Steht_An auf OFF - FEHLER", update.effective_user.full_name, update.effective_user.id) 
+        my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Aktion: Setze Item Abfall_Steht_An auf OFF - FEHLER") 
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
 
 @restricted
@@ -309,26 +309,26 @@ def good_morning(bot, update):
     reply += "\n" + "im Wohnzimmer " + "{:.1f}".format(get_oh('T_WZ_ist')) + " °C"
     reply += "\nZur Arbeit brauchst du aktuell " + str(maps_driving_time(coord_home,coord_work1)) + " Minuten"
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    my_log("User %s, ID %s: Guten Morgen gesagt", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Guten Morgen gesagt")
 
 @restricted
 def time_to_work(bot, update):
     reply = "\nZur Arbeit brauchst du aktuell " + str(maps_driving_time(coord_home,coord_work1)) + " Minuten."
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    my_log("User %s, ID %s: Zeit zur Arbeit angefragt", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Zeit zur Arbeit angefragt")
 
 @restricted
 def time_home(bot, update):
     reply = "\nVon der Arbeit nach Hause brauchst du aktuell " + str(maps_driving_time(coord_work1,coord_home)) + " Minuten."
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    my_log("User %s, ID %s: Zeit Arbeit nach Hause angefragt", update.effective_user.full_name, update.effective_user.id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Zeit Arbeit nach Hause angefragt")
 
 @restricted
 def chat_id(bot, update):
     reply = "Unsere Chat-ID ist:\n"
     reply += update.message.chat_id
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
-    my_log("User %s, ID %s: Chat-id angefragt. Sie ist: %s", update.effective_user.full_name, update.effective_user.id, update.message.chat_id)
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Chat-id angefragt. Sie ist: " + str(update.message.chat_id))
 
 @restricted
 def thanks(bot, update):
@@ -341,17 +341,17 @@ def error(bot, update, error):
     try:
         raise error
     except Unauthorized:
-        my_log('Update "%s" caused the error: "%s"', update, error)
+        my_log("Update " + str(update) + " caused the error: " + str(error))
     except BadRequest:
-        my_log('Update "%s" caused the error: "%s"', update, error)
+        my_log("Update " + str(update) + " caused the error: " + str(error))
     except TimedOut:
         pass
     except NetworkError:
         pass
     except ChatMigrated as e:
-        my_log('Update "%s" caused the error: "%s"', update, error)
+        my_log("Update " + str(update) + " caused the error: " + str(error))
     except TelegramError:
-        my_log('Update "%s" caused the error: "%s"', update, error)
+        my_log("Update " + str(update) + " caused the error: " + str(error))
 
 def main():
     initialize_vars()
@@ -360,7 +360,7 @@ def main():
         openhab = openHAB(url_oh)
         Items = openhab.fetch_all_items()
     except Exception as e:
-        my_log("Error connecting to openHAB: %s", e)
+        my_log("Error connecting to openHAB: " + str(e))
         pass
 
     # Create the EventHandler and pass it your bot's token.

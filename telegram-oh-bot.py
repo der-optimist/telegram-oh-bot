@@ -16,9 +16,10 @@ from functools import wraps
 import logging
 from openhab import openHAB
 import requests
+from datetime import datetime
 
 # Enable logging
-log_output = 1 # 1: use logging module | 2: only print defined output to stdout | 3: no logging or printing
+log_output = 2 # 1: use logging module | 2: only print defined output to stdout | 3: no logging or printing
 if log_output == 1:
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
@@ -29,7 +30,7 @@ def my_log(logtext):
     if log_output == 1:
         logger.info(logtext)
     if log_output == 2:
-        print(logtext)
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + logtext)
         
 # Config
 config = configparser.ConfigParser()

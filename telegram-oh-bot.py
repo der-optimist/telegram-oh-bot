@@ -313,7 +313,7 @@ def good_morning(bot, update):
 
 @restricted
 def good_night(bot, update):
-    reply = "Danke, das wünsch ich dir auch! Schlaf gut 😴"
+    reply = "Danke, das wünsch ich dir auch!\nSchlaf gut 😴"
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Gute Nacht gesagt")
 

@@ -312,6 +312,12 @@ def good_morning(bot, update):
     my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Guten Morgen gesagt")
 
 @restricted
+def good_night(bot, update):
+    reply = "Danke, das wünsch ich dir auch! Schlaf gut 😴"
+    update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
+    my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Gute Nacht gesagt")
+
+@restricted
 def time_to_work(bot, update):
     reply = "\nZur Arbeit brauchst du aktuell " + str(maps_driving_time(coord_home,coord_work1)) + " Minuten."
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
@@ -405,6 +411,7 @@ def main():
     temp_handler = RegexHandler('^(Temp|temp)',show_temps)
     garbage_handler = RegexHandler('^(Müll)',set_garbage)
     good_morning_handler = RegexHandler('^((Guten|guten).(Morgen|morgen))',good_morning)
+    good_night_handler = RegexHandler('^((Gute|gute).(Nacht|nacht))',good_night)
     time_to_work_handler = RegexHandler('^(Arbeit|arbeit)',time_to_work)
     time_home_handler = RegexHandler('^(Feierabend|feierabend|nach Hause|Nach Hause|heim|Heim)',time_home)
     chat_id_handler = RegexHandler('^(Chat|chat)',chat_id)
@@ -417,6 +424,7 @@ def main():
     dp.add_handler(temp_handler)
     dp.add_handler(garbage_handler)
     dp.add_handler(good_morning_handler)
+    dp.add_handler(good_night_handler)
     dp.add_handler(time_to_work_handler)
     dp.add_handler(time_home_handler)
     dp.add_handler(chat_id_handler)

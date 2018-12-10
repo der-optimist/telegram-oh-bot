@@ -17,6 +17,7 @@ import logging
 from openhab import openHAB
 import requests
 from datetime import datetime
+import random
 
 # Enable logging
 log_output = 2 # 1: use logging module | 2: only print defined output to stdout | 3: no logging or printing
@@ -313,7 +314,7 @@ def good_morning(bot, update):
 
 @restricted
 def good_night(bot, update):
-    reply = "Danke, das wünsch ich dir auch!\nSchlaf gut 😴"
+    reply = random.choice(["Danke, das wünsch ich dir auch!\nSchlaf gut 😴", "Danke! träum was Schönes 😴", "Danke, werd ich bestimmt haben wenn du mich in Ruhe lässt 😄"])
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Gute Nacht gesagt")
 
@@ -338,7 +339,7 @@ def chat_id(bot, update):
 
 @restricted
 def thanks(bot, update):
-    reply = "Gerne 😘"
+    reply = random.choice(["Gerne 😘", "Hey, du bist der Boss, ich mach nur was du sagst 😉", "Immer wieder gerne", "Bitteschön!"])
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     my_log("User " + update.effective_user.full_name + " ID " + str(update.effective_user.id) + ": Danke gesagt - sehr freundlich")
 

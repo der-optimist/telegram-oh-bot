@@ -285,7 +285,10 @@ def help_me(bot, update):
 @restricted
 def show_temps(bot, update):
     reply = "=== 🔥 Temperaturen ❄️ ==="
-    reply += "\n" + "Draußen: " + "{:.1f}".format(get_oh('TempAktuellFIO'))
+    try:
+        reply += "\n" + "Draußen: " + "{:.1f}".format(get_oh('TempAktuellFIO'))
+    except:
+        reply += "\n" + "Draußen: (?)"
     reply += "\n" + "Wohnzimmer: " "{:.1f}".format(+ get_oh('T_WZ_ist'))
     update.message.reply_text(reply,reply_markup=ReplyKeyboardRemove())
     my_log("User " + update.effective_user.full_name + ", ID " + str(update.effective_user.id) + ": Temperaturen angefragt")
